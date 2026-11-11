@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E07A87">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icone-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<script>window.LEO_APP=true</script>
+<title>Leo Artes Caderninho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: caderninho digital — cabeçalho com a marca, abas grandes, cartões largos e botões enormes */
+:root{
+  --bg:#FFF8F7;
+  --paper:#FFFFFF;
+  --ink:#3B2F33;
+  --muted:#7D6B70;
+  --line:#F0DEDF;
+  --rosa:#E07A87;
+  --rosa-soft:#FCE6E8;
+  --azul:#4E98B8;
+  --azul-soft:#E1F0F6;
+  --verde:#3E9466;
+  --verde-soft:#E2F3E9;
+  --vermelho:#C8483F;
+  --vermelho-soft:#FBE4E1;
+  --amarelo-soft:#FFF2D6;
+  --amarelo:#A86D00;
+  --shadow:0 2px 10px rgba(160,90,100,.10);
+  --f-marca:"Dancing Script","Brush Script MT",cursive;
+  --f-texto:"Nunito","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211A1C;--paper:#2D2427;--ink:#F7ECEE;--muted:#C2AEB3;--line:#44373B;
+  --rosa:#F098A3;--rosa-soft:#4A2F34;--azul:#7CC0DC;--azul-soft:#22394379;
+  --verde:#7BCF9F;--verde-soft:#1F3A2B;--vermelho:#F08A80;--vermelho-soft:#46262330;
+  --amarelo-soft:#3D3220;--amarelo:#F2C46B;--shadow:0 2px 10px rgba(0,0,0,.3);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#211A1C;--paper:#2D2427;--ink:#F7ECEE;--muted:#C2AEB3;--line:#44373B;
+  --rosa:#F098A3;--rosa-soft:#4A2F34;--azul:#7CC0DC;--azul-soft:#22394379;
+  --verde:#7BCF9F;--verde-soft:#1F3A2B;--vermelho:#F08A80;--vermelho-soft:#46262330;
+  --amarelo-soft:#3D3220;--amarelo:#F2C46B;--shadow:0 2px 10px rgba(0,0,0,.3);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-texto);font-size:19px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+.wrap{max-width:980px;margin:0 auto}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--azul);outline-offset:2px}
+
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 8px;flex-wrap:wrap}
+.marca{display:flex;align-items:baseline;gap:6px;line-height:1}
+.marca .leo{font-family:var(--f-marca);font-size:52px;color:var(--rosa);font-weight:700}
+.marca .artes{font-family:var(--f-marca);font-size:40px;color:var(--azul);font-weight:600}
+.saudacao{color:var(--muted);font-size:18px}
+
+nav.abas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 22px}
+nav.abas button{background:var(--paper);border:2px solid var(--line);border-radius:16px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:700;font-size:17px;min-height:78px}
+nav.abas button svg{width:28px;height:28px}
+nav.abas button[aria-selected="true"]{background:var(--rosa);border-color:var(--rosa);color:#fff}
+@media (max-width:640px){
+  nav.abas{position:fixed;left:0;right:0;bottom:0;margin:0;z-index:20;background:var(--paper);border-top:2px solid var(--line);
+    padding:8px max(8px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));gap:4px}
+  nav.abas button{font-size:14px;min-height:66px;border-radius:12px;padding:8px 2px}
+  .marca .leo{font-size:44px}.marca .artes{font-size:34px}
+}
+
+h2{font-size:28px;margin:0 0 4px;font-weight:800;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 18px;font-size:18px}
+h3{font-size:22px;margin:0 0 12px;font-weight:800}
+
+.cartao{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.grade{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:760px){.g3,.g2{grid-template-columns:1fr}}
+section{display:flex;flex-direction:column;gap:18px}
+
+.numero{border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:2px}
+.numero .rot{font-size:18px;font-weight:700}
+.numero .val{font-size:36px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.15}
+.numero .obs{font-size:16px;opacity:.85}
+.n-verde{background:var(--verde-soft);color:var(--verde)}
+.n-vermelho{background:var(--vermelho-soft);color:var(--vermelho)}
+.n-azul{background:var(--azul-soft);color:var(--azul)}
+
+.acoes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:760px){.acoes{grid-template-columns:1fr}}
+.btn{border:none;border-radius:16px;padding:16px 20px;font-weight:800;font-size:20px;min-height:62px;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.btn svg{width:26px;height:26px;flex:none}
+.btn-rosa{background:var(--rosa);color:#fff}
+.btn-azul{background:var(--azul);color:#fff}
+.btn-verde{background:var(--verde);color:#fff}
+.btn-claro{background:var(--paper);border:2px solid var(--line);color:var(--ink)}
+.btn-vermelho{background:var(--vermelho-soft);color:var(--vermelho)}
+.btn-peq{min-height:50px;font-size:17px;padding:10px 16px;border-radius:14px}
+
+/* fios */
+.fio{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center}
+.novelo{width:64px;height:64px;border-radius:50%;position:relative;box-shadow:inset -6px -8px 0 rgba(0,0,0,.14),inset 4px 5px 0 rgba(255,255,255,.25);border:2px solid rgba(0,0,0,.08)}
+.novelo::after{content:"";position:absolute;inset:10px;border-radius:50%;border:2px dashed rgba(255,255,255,.45)}
+.fio .nome{font-weight:800;font-size:21px}
+.fio .info{color:var(--muted);font-size:17px}
+.barra{height:16px;background:var(--line);border-radius:10px;overflow:hidden;margin:8px 0 4px}
+.barra i{display:block;height:100%;border-radius:10px;background:var(--azul)}
+.barra.pouco i{background:var(--vermelho)}
+.fio-btns{display:flex;flex-direction:column;gap:8px}
+@media (max-width:640px){.fio{grid-template-columns:52px 1fr}.novelo{width:52px;height:52px}.fio-btns{grid-column:1/-1;flex-direction:row}.fio-btns .btn{flex:1}}
+.selo{display:inline-block;padding:2px 12px;border-radius:999px;font-size:15px;font-weight:800}
+.selo-vermelho{background:var(--vermelho-soft);color:var(--vermelho)}
+.selo-verde{background:var(--verde-soft);color:var(--verde)}
+
+/* peças */
+.peca{display:flex;flex-direction:column;gap:10px}
+.peca .topo{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.peca .nome{font-weight:800;font-size:21px}
+.linhas{display:flex;flex-direction:column;gap:6px;font-size:18px}
+.linha{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.linha.total{border-top:2px dashed var(--line);padding-top:8px;font-weight:800;font-size:20px}
+.foto{aspect-ratio:4/3;width:100%;max-width:100%;border-radius:16px;overflow:hidden;background:var(--rosa-soft);display:grid;place-items:center;border:2px dashed var(--rosa);padding:0;color:var(--rosa);font-weight:800;font-size:18px}
+.foto.tem{border:none}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto .vazio{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;text-align:center}
+.foto .vazio svg{width:44px;height:44px}
+.foto-acoes{display:flex;gap:8px;flex-wrap:wrap}
+.foto-acoes .btn{flex:1}
+.thumb{width:60px;height:60px;border-radius:12px;object-fit:cover;flex:none;background:var(--rosa-soft);display:grid;place-items:center;color:var(--rosa)}
+.thumb svg{width:26px;height:26px}
+.pontinhos{display:flex;gap:4px;flex-wrap:wrap}
+.pontinhos span{width:20px;height:20px;border-radius:50%;border:2px solid rgba(0,0,0,.1)}
+
+/* caixa */
+.mov{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.mov:last-child{border-bottom:none}
+.mov .ic{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:26px}
+.mov .ic.e{background:var(--verde-soft);color:var(--verde)}
+.mov .ic.s{background:var(--vermelho-soft);color:var(--vermelho)}
+.mov .d{font-weight:700}
+.mov .dt{color:var(--muted);font-size:16px}
+.mov .v{font-weight:800;font-variant-numeric:tabular-nums;font-size:20px;white-space:nowrap}
+.v.e{color:var(--verde)}.v.s{color:var(--vermelho)}
+
+.aviso{background:var(--amarelo-soft);color:var(--amarelo);border-radius:16px;padding:14px 18px;font-weight:700}
+
+/* janela */
+.fundo{position:fixed;inset:0;background:rgba(40,20,25,.45);z-index:50;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 40px max(12px,env(safe-area-inset-left,0px))}
+.janela{background:var(--paper);border-radius:24px;padding:24px;width:100%;max-width:620px;margin-top:20px;display:flex;flex-direction:column;gap:16px}
+.janela .cab{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.fechar{background:var(--rosa-soft);border:none;border-radius:14px;min-width:54px;height:54px;font-size:28px;font-weight:800;color:var(--rosa)}
+label.campo{display:flex;flex-direction:column;gap:6px;font-weight:700}
+label.campo small{font-weight:600;color:var(--muted);font-size:16px}
+input[type=text],input[type=number],select{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:12px 14px;min-height:56px;font-size:20px;width:100%}
+input:focus,select:focus{border-color:var(--azul);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--bg);border:2px solid var(--line);border-radius:999px;padding:10px 18px;font-weight:800;font-size:18px;min-height:50px}
+.chip[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);color:#fff}
+.cores{display:flex;flex-wrap:wrap;gap:10px}
+.cor{width:50px;height:50px;border-radius:50%;border:3px solid transparent;box-shadow:0 0 0 2px var(--line)}
+.cor[aria-pressed="true"]{border-color:var(--paper);box-shadow:0 0 0 4px var(--ink)}
+.cor-livre{display:flex;align-items:center;gap:14px;background:var(--bg);border:2px dashed var(--line);border-radius:18px;padding:8px 16px 8px 8px;font-weight:800;cursor:pointer}
+.cor-livre.sel{border-style:solid;border-color:var(--ink)}
+.cor-livre span{display:flex;flex-direction:column;line-height:1.25}
+.cor-livre small{font-weight:600;color:var(--muted);font-size:16px}
+.cor-livre input{width:56px;height:56px;flex:none;border:none;border-radius:50%;padding:0;background:conic-gradient(red,orange,yellow,lime,cyan,blue,magenta,red);cursor:pointer}
+.cor-livre input::-webkit-color-swatch-wrapper{padding:4px}
+.cor-livre input::-webkit-color-swatch{border:3px solid var(--paper);border-radius:50%}
+.cor-livre input::-moz-color-swatch{border:3px solid var(--paper);border-radius:50%}
+.resumo{background:var(--bg);border-radius:18px;padding:16px 18px}
+.grande-final{font-size:34px;font-weight:800;color:var(--verde);font-variant-numeric:tabular-nums}
+.linha-ed{display:grid;grid-template-columns:1fr 130px 54px;gap:8px;align-items:center}
+.linha-ed .x{background:var(--vermelho-soft);color:var(--vermelho);border:none;border-radius:12px;height:54px;font-size:24px;font-weight:800}
+.marcar{display:flex;align-items:center;gap:12px;font-weight:700}
+.marcar input{width:28px;height:28px;accent-color:var(--rosa)}
+.lista-escolha{display:flex;flex-direction:column;gap:8px}
+.escolha{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border:2px solid var(--line);border-radius:16px;padding:14px 16px;font-weight:800;text-align:left}
+.escolha[aria-pressed="true"]{border-color:var(--rosa);background:var(--rosa-soft)}
+.escolha span:last-child{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+
+.topo-dir{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ajuda-btn{background:var(--azul-soft);color:var(--azul);border:2px solid var(--azul);border-radius:999px;padding:8px 18px;font-weight:800;font-size:18px;min-height:50px;display:inline-flex;align-items:center;gap:8px}
+.ajuda-btn b{width:28px;height:28px;border-radius:50%;background:var(--azul);color:#fff;display:grid;place-items:center;font-size:18px}
+.bloco{display:flex;flex-direction:column;gap:12px;border-top:2px dashed var(--line);padding-top:16px}
+.bloco h3{margin:0;font-size:23px}
+.bloco p{margin:0}
+.passos{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none;counter-reset:p}
+.passos li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.passos li::before{counter-increment:p;content:counter(p);width:44px;height:44px;border-radius:50%;background:var(--azul);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px}
+.passos.rosa li::before{background:var(--rosa)}
+.lista-simples{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:8px}
+kbd{background:var(--bg);border:2px solid var(--line);border-bottom-width:4px;border-radius:8px;padding:0 8px;font-family:inherit;font-weight:800;white-space:nowrap}
+.ok{background:var(--verde-soft);color:var(--verde);border-radius:16px;padding:14px 18px;font-weight:700}
+.nao{background:var(--vermelho-soft);color:var(--vermelho);border-radius:16px;padding:14px 18px;font-weight:700}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:14px 24px;border-radius:16px;font-weight:800;z-index:60;font-size:19px;max-width:90vw;text-align:center}
+footer{margin-top:36px;color:var(--muted);font-size:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.rodape-btn{background:none;border:2px solid var(--line);border-radius:12px;padding:8px 14px;color:var(--muted);font-weight:700;font-size:16px}
+@media (prefers-reduced-motion:no-preference){.janela{animation:sobe .18s ease-out}@keyframes sobe{from{transform:translateY(12px);opacity:.6}}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="marca" aria-label="Leo Artes"><span class="leo">Leo</span><span class="artes">Artes</span></div>
+    <div class="topo-dir"><div class="saudacao" id="saudacao"></div>
+      <button class="ajuda-btn" data-acao="ajuda"><b>?</b>Como usar</button></div>
+  </header>
+
+  <nav class="abas" role="tablist" id="abas"></nav>
+  <main id="tela"></main>
+
+  <footer>
+    <span>Esboço · os dados ficam guardados neste aparelho. Os valores de exemplo podem ser apagados.</span>
+    <span style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="rodape-btn" id="btnExemplos">Voltar aos exemplos</button>
+      <button class="rodape-btn" id="btnZerar">Começar do zero</button>
+    </span>
+  </footer>
+</div>
+<div id="janelas"></div>
+<input id="inFoto" type="file" accept="image/*" hidden>
+<input id="inCopia" type="file" accept=".json,application/json" hidden>
+
+<script>
+/* ---------- utilidades ---------- */
+const R = v => (Number(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const G = v => (Math.round(Number(v)||0)).toLocaleString('pt-BR')+' g';
+const id = () => Math.random().toString(36).slice(2,9);
+const hoje = () => new Date().toISOString().slice(0,10);
+const dataBR = s => { const [a,m,d]=s.split('-'); return `${d}/${m}/${a}`; };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num = v => { const n = parseFloat(String(v).replace(',','.')); return isNaN(n)?0:n; };
+
+const ICON = {
+  casa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+  novelo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M6 8c4 1 9 5 11 10M5 13c4 0 8 3 9 7M9 4.6c3 3 7 4 10.6 4"/></svg>',
+  bolsa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14l-1.2 11H6.2z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>',
+  venda:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>',
+  caixa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M16 15h2"/></svg>',
+  mais:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  menos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg>',
+  camera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  tesoura:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.1 8.1L20 20M8.1 15.9L20 4"/></svg>'
+};
+
+/* ---------- dados de exemplo ---------- */
+function exemplos(){
+  const f = (nome,cor,peso,rest,preco)=>({id:id(),nome,cor,peso,restante:rest,preco});
+  const fios = [
+    f('Fio de malha Preto','#2B2B2E',1000,620,45),
+    f('Fio de malha Azul','#3E7CC4',1000,950,45),
+    f('Azul Perolado','#9CC6E0',1000,800,58),
+    f('Rosa Pink','#E8318A',1000,310,48),
+    f('Terracota','#C8653A',1000,700,45),
+    f('Bege Areia','#CDB79C',1000,520,45),
+    f('Marrom Café','#4A2C24',1000,640,45),
+    f('Verde Sálvia','#8FB79C',1000,140,50),
+    f('Branco','#F4F1EE',1000,880,42),
+  ];
+  const by = n => fios.find(x=>x.nome===n).id;
+  const pecas = [
+    {id:id(),nome:'Bolsa Artesanal listrada',fios:[{fioId:by('Bege Areia'),g:250},{fioId:by('Terracota'),g:200},{fioId:by('Marrom Café'),g:250}],extras:[{nome:'Alça de couro',v:25},{nome:'Pingente e plaquinha',v:9}],margem:150,preco:185},
+    {id:id(),nome:'Bolsa Pink com corrente',fios:[{fioId:by('Rosa Pink'),g:350}],extras:[{nome:'Corrente dourada',v:18},{nome:'Fecho',v:6}],margem:150,preco:150},
+    {id:id(),nome:'Cesto com tampa (bege e rosa)',fios:[{fioId:by('Bege Areia'),g:150},{fioId:by('Branco'),g:80}],extras:[{nome:'Puxador de cristal',v:7},{nome:'Coração dourado',v:3}],margem:150,preco:75},
+    {id:id(),nome:'Porta-vinho',fios:[{fioId:by('Bege Areia'),g:200}],extras:[{nome:'Alça de couro',v:12}],margem:150,preco:70},
+  ];
+  const m = (d,tipo,desc,valor)=>({id:id(),data:d,tipo,desc,valor});
+  const ym = hoje().slice(0,8);
+  const mov = [
+    m(ym+'02','s','Comprei 3 rolos (Preto, Azul, Terracota)',135),
+    m(ym+'03','e','Vendi: Bolsa Pink com corrente',150),
+    m(ym+'05','e','Vendi: Cesto com tampa (desconto 10%)',67.5),
+    m(ym+'06','s','Correntes douradas e fechos',48),
+    m(ym+'08','e','Vendi: Bolsa Artesanal listrada',185),
+    m(ym+'09','s','Comprei rolo Azul Perolado',58),
+    m(ym+'10','e','Vendi: Porta-vinho',70),
+  ];
+  return {fios,pecas,mov};
+}
+
+/* ---------- estado ---------- */
+const CHAVE='leoartes-v1';
+let D;
+try{ D = JSON.parse(localStorage.getItem(CHAVE)); }catch(e){ D=null; }
+/* arruma dados antigos ou de cópias, para versões novas nunca quebrarem */
+function normalizar(d){
+  const n = v => Number(v)||0;
+  return {
+    fios:(Array.isArray(d.fios)?d.fios:[]).map(f=>({id:f.id||id(),nome:String(f.nome||'Fio'),cor:String(f.cor||'#CCCCCC'),peso:n(f.peso)||1000,restante:n(f.restante),preco:n(f.preco)})),
+    pecas:(Array.isArray(d.pecas)?d.pecas:[]).map(p=>({id:p.id||id(),nome:String(p.nome||'Peça'),fios:Array.isArray(p.fios)?p.fios.map(x=>({fioId:x.fioId,g:n(x.g)})):[],extras:Array.isArray(p.extras)?p.extras.map(x=>({nome:String(x.nome||''),v:n(x.v)})):[],margem:n(p.margem)||150,preco:n(p.preco),foto:p.foto||''})),
+    mov:(Array.isArray(d.mov)?d.mov:[]).map(m=>({id:m.id||id(),data:String(m.data||hoje()),tipo:m.tipo==='e'?'e':'s',desc:String(m.desc||''),valor:n(m.valor)})),
+    ultimaCopia:d.ultimaCopia||''
+  };
+}
+D = (D && D.fios) ? normalizar(D) : exemplos();
+const PODE_BAIXAR = (()=>{ try{ return window.self===window.top; }catch(e){ return false; } })();
+
+/* ---------- versão de celular (aplicativo instalável) ---------- */
+const EH_APP = !!window.LEO_APP && PODE_BAIXAR;
+const instalado = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const NAV_XIAOMI = /MiuiBrowser|XiaoMi|HeyTapBrowser|SamsungBrowser|; wv\)/i.test(navigator.userAgent) || !/Chrome\//.test(navigator.userAgent);
+let pedidoInstalar = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); pedidoInstalar = e; if(aba==='inicio') render(); });
+window.addEventListener('appinstalled', () => { pedidoInstalar=null; aviso('Pronto! O Leo Artes está na tela do celular'); render(); });
+if(EH_APP){
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+  try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
+}
+function instalarHTML(){
+  if(pedidoInstalar) return `<h3 style="margin:0">Colocar o Leo Artes na tela do celular</h3>
+    <p style="margin:0">Assim ele fica com um ícone igual ao do WhatsApp. É só tocar no botão abaixo e depois em <b>Instalar</b>.</p>
+    <button class="btn btn-rosa" data-acao="instalar" style="min-height:76px;font-size:22px">${ICON.mais} Colocar na tela do celular</button>`;
+  if(NAV_XIAOMI) return `<h3 style="margin:0">Abra no Google Chrome</h3>
+    <p style="margin:0">Para colocar o Leo Artes na tela do celular, ele precisa estar aberto no <b>Chrome</b> (a bolinha colorida vermelha, amarela e verde).</p>
+    <ol class="passos"><li><span>Toque nos <b>três pontinhos</b> <kbd>⋮</kbd> no canto de cima da tela.</span></li>
+      <li><span>Escolha <b>Abrir no Chrome</b>.</span></li>
+      <li><span>Se não aparecer essa opção, copie o endereço abaixo e cole no Chrome.</span></li></ol>
+    <div class="resumo" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b style="word-break:break-all;flex:1;min-width:0">${esc(location.href.split('#')[0])}</b>
+      <button class="btn btn-azul btn-peq" data-acao="copiarLink">Copiar</button></div>`;
+  return `<h3 style="margin:0">Colocar o Leo Artes na tela do celular</h3>
+    <ol class="passos"><li><span>Toque nos <b>três pontinhos</b> <kbd>⋮</kbd> no canto de cima do Chrome.</span></li>
+      <li><span>Escolha <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>. Se não aparecer, escolha antes <b>Abrir no Chrome</b> e repita.</span></li>
+      <li><span>Toque em <b>Instalar</b>. Pronto! O ícone aparece junto com os outros aplicativos.</span></li></ol>`;
+}
+function cartaoInstalarHTML(){
+  if(!EH_APP || instalado()) return '';
+  return `<div class="cartao" style="display:flex;flex-direction:column;gap:12px;border:3px solid var(--rosa)">${instalarHTML()}</div>`;
+}
+
+function guardarCopia(){
+  D.ultimaCopia = hoje(); salvar();
+  const dados = JSON.stringify(Object.assign({app:'leo-artes',versao:1,salvoEm:new Date().toISOString()},D));
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([dados],{type:'application/json'}));
+  a.download=`Leo Artes - copia ${dataBR(hoje()).replace(/\//g,'-')}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+  render(); aviso('Cópia guardada na pasta Downloads');
+}
+function abrirCopia(file){
+  const r=new FileReader();
+  r.onload=()=>{
+    let c; try{ c=JSON.parse(r.result); }catch(e){ c=null; }
+    if(!c || !Array.isArray(c.fios) || !Array.isArray(c.mov)){ aviso('Esse arquivo não é uma cópia do caderninho'); return; }
+    window._copia=c;
+    abrir(`${cab('Abrir esta cópia?')}
+      <div class="resumo"><div class="linhas">
+        <div class="linha"><span>Cópia guardada em</span><b>${c.salvoEm?dataBR(c.salvoEm.slice(0,10)):'—'}</b></div>
+        <div class="linha"><span>Fios</span><b>${c.fios.length}</b></div>
+        <div class="linha"><span>Peças</span><b>${(c.pecas||[]).length}</b></div>
+        <div class="linha"><span>Anotações de dinheiro</span><b>${c.mov.length}</b></div></div></div>
+      <div class="aviso">O que está no caderninho agora vai ser trocado pelo que está nesta cópia.</div>
+      <button class="btn btn-verde" data-acao="usarCopia">Sim, usar esta cópia</button>
+      <button class="btn btn-claro" data-acao="fechar">Não, deixar como está</button>`);
+  };
+  r.readAsText(file);
+}
+function cartaoCopiaHTML(){
+  if(!PODE_BAIXAR) return '';
+  const dias = D.ultimaCopia ? Math.round((new Date(hoje())-new Date(D.ultimaCopia))/864e5) : null;
+  const txt = dias===null ? '<div class="aviso">Você ainda não guardou nenhuma cópia.</div>'
+    : dias>7 ? `<div class="aviso">A última cópia foi há ${dias} dias. Que tal guardar uma nova?</div>`
+    : `<div class="ok">Última cópia: ${dataBR(D.ultimaCopia)}${dias===0?' (hoje)':dias===1?' (ontem)':` (há ${dias} dias)`}.</div>`;
+  return `<div class="cartao" style="display:flex;flex-direction:column;gap:12px">
+    <h3 style="margin:0">Cópia de segurança</h3>
+    <p class="sub" style="margin:0">Uma vez por semana, guarde uma cópia e mande para você mesma no WhatsApp. Assim nada se perde.</p>
+    ${txt}
+    <div class="acoes" style="grid-template-columns:repeat(2,1fr)">
+      <button class="btn btn-verde" data-acao="guardarCopia">Guardar uma cópia</button>
+      <button class="btn btn-claro" data-acao="abrirCopia">Abrir uma cópia</button>
+    </div></div>`;
+}
+const salvar = ()=>{ try{ localStorage.setItem(CHAVE,JSON.stringify(D)); }catch(e){ if(e && e.name==='QuotaExceededError') aviso('A memória do aparelho encheu. Tente apagar alguma foto.'); } };
+
+/* foto: diminui a imagem antes de guardar, para caber muitas */
+function lerFoto(file, cb){
+  const r=new FileReader();
+  r.onload=()=>{ const img=new Image();
+    img.onload=()=>{ const max=700; const s=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas'); c.width=Math.round(img.width*s); c.height=Math.round(img.height*s);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height); cb(c.toDataURL('image/jpeg',.78)); };
+    img.onerror=()=>aviso('Não consegui abrir essa foto. Tente outra.');
+    img.src=r.result; };
+  r.readAsDataURL(file);
+}
+let fotoAlvo=null;
+function pedirFoto(alvo){ fotoAlvo=alvo; const i=document.getElementById('inFoto'); i.value=''; i.click(); }
+const thumbHTML = p => p.foto ? `<img class="thumb" src="${p.foto}" alt="">` : `<span class="thumb">${ICON.camera}</span>`;
+let aba = 'inicio';
+try{ aba = localStorage.getItem(CHAVE+'-aba') || 'inicio'; }catch(e){}
+
+const fioPorId = i => D.fios.find(f=>f.id===i);
+const custoGrama = f => f ? f.preco / f.peso : 0;
+function custoPeca(p){
+  const fio = p.fios.reduce((s,x)=>s + x.g*custoGrama(fioPorId(x.fioId)),0);
+  const ext = p.extras.reduce((s,x)=>s + num(x.v),0);
+  return {fio,ext,total:fio+ext};
+}
+function doMes(){
+  const ym = hoje().slice(0,7);
+  const l = D.mov.filter(x=>x.data.slice(0,7)===ym);
+  const e = l.filter(x=>x.tipo==='e').reduce((s,x)=>s+x.valor,0);
+  const s = l.filter(x=>x.tipo==='s').reduce((s2,x)=>s2+x.valor,0);
+  return {e,s,l:e-s};
+}
+
+/* ---------- abas ---------- */
+const ABAS=[['inicio','Início','casa'],['fios','Meus fios','novelo'],['pecas','Peças','bolsa'],['vendas','Vender','venda'],['caixa','Dinheiro','caixa']];
+function desenharAbas(){
+  document.getElementById('abas').innerHTML = ABAS.map(([k,t,ic])=>
+    `<button role="tab" aria-selected="${aba===k}" data-aba="${k}">${ICON[ic]}<span>${t}</span></button>`).join('');
+}
+document.getElementById('abas').addEventListener('click',e=>{
+  const b=e.target.closest('[data-aba]'); if(!b) return;
+  ir(b.dataset.aba);
+});
+function ir(k){ aba=k; try{localStorage.setItem(CHAVE+'-aba',k)}catch(e){} render(); window.scrollTo({top:0}); }
+
+function render(){
+  desenharAbas();
+  const h = new Date().getHours();
+  document.getElementById('saudacao').textContent = (h<12?'Bom dia':h<18?'Boa tarde':'Boa noite')+', Leonilde!';
+  const t = document.getElementById('tela');
+  t.innerHTML = ({inicio:telaInicio,fios:telaFios,pecas:telaPecas,vendas:telaVendas,caixa:telaCaixa})[aba]();
+}
+
+/* ---------- telas ---------- */
+function telaInicio(){
+  const m = doMes();
+  const mes = new Date().toLocaleDateString('pt-BR',{month:'long'});
+  const pouco = D.fios.filter(f=>f.restante/f.peso < .2);
+  const valorEstoque = D.fios.reduce((s,f)=>s+f.restante*custoGrama(f),0);
+  const totalG = D.fios.reduce((s,f)=>s+f.restante,0);
+  return `<section>
+    ${cartaoInstalarHTML()}
+    <div><h2>Como está o mês de ${mes}</h2><p class="sub">Um resumo do que entrou e do que saiu.</p></div>
+    <div class="grade g3">
+      <div class="numero n-verde"><span class="rot">Recebi</span><span class="val">${R(m.e)}</span><span class="obs">com as vendas</span></div>
+      <div class="numero n-vermelho"><span class="rot">Gastei</span><span class="val">${R(m.s)}</span><span class="obs">em fios e materiais</span></div>
+      <div class="numero n-azul"><span class="rot">Sobrou</span><span class="val">${R(m.l)}</span><span class="obs">meu lucro do mês</span></div>
+    </div>
+    <div class="acoes">
+      <button class="btn btn-verde" data-acao="vender">${ICON.venda} Vendi uma peça</button>
+      <button class="btn btn-azul" data-acao="novoFio">${ICON.mais} Comprei fio</button>
+      <button class="btn btn-rosa" data-acao="irFios">${ICON.tesoura} Usei fio</button>
+    </div>
+    <div class="grade g2">
+      <div class="cartao">
+        <h3>Meu estoque de fios</h3>
+        <div class="linhas">
+          <div class="linha"><span>Rolos cadastrados</span><b>${D.fios.length}</b></div>
+          <div class="linha"><span>Fio que tenho guardado</span><b>${(totalG/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})} kg</b></div>
+          <div class="linha total"><span>Esse fio vale</span><span>${R(valorEstoque)}</span></div>
+        </div>
+      </div>
+      <div class="cartao">
+        <h3>Fios acabando</h3>
+        ${pouco.length? `<div class="linhas">${pouco.map(f=>`<div class="linha"><span style="display:flex;gap:10px;align-items:center"><span class="novelo" style="width:28px;height:28px;background:${f.cor}"></span>${esc(f.nome)}</span><span class="selo selo-vermelho">${G(f.restante)}</span></div>`).join('')}</div>
+        <p class="sub" style="margin:12px 0 0">Bom lembrar de comprar na próxima ida à loja.</p>`
+        : `<p class="sub" style="margin:0">Tudo certo! Nenhum fio está acabando.</p>`}
+      </div>
+    </div>
+    ${cartaoCopiaHTML()}
+  </section>`;
+}
+
+function telaFios(){
+  return `<section>
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end">
+      <div><h2>Meus fios</h2><p class="sub" style="margin:0">Quanto sobrou de cada rolo.</p></div>
+      <button class="btn btn-azul" data-acao="novoFio">${ICON.mais} Comprei um rolo novo</button>
+    </div>
+    ${D.fios.length? '' : '<div class="aviso">Nenhum fio cadastrado ainda. Toque em "Comprei um rolo novo".</div>'}
+    ${D.fios.map(f=>{
+      const pct = Math.max(0,Math.min(100,f.restante/f.peso*100));
+      const pouco = pct<20;
+      return `<div class="cartao fio">
+        <div class="novelo" style="background:${f.cor}"></div>
+        <div style="min-width:0">
+          <div class="nome">${esc(f.nome)} ${pouco?'<span class="selo selo-vermelho">acabando</span>':''}</div>
+          <div class="barra ${pouco?'pouco':''}"><i style="width:${pct}%"></i></div>
+          <div class="info">Sobrou <b style="color:var(--ink)">${G(f.restante)}</b> de ${G(f.peso)} · paguei ${R(f.preco)} · ${R(custoGrama(f)*100)} a cada 100 g</div>
+        </div>
+        <div class="fio-btns">
+          <button class="btn btn-rosa btn-peq" data-acao="usar" data-id="${f.id}">${ICON.menos} Usei</button>
+          <button class="btn btn-claro btn-peq" data-acao="editarFio" data-id="${f.id}">Mudar</button>
+        </div>
+      </div>`}).join('')}
+  </section>`;
+}
+
+function telaPecas(){
+  return `<section>
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end">
+      <div><h2>Minhas peças</h2><p class="sub" style="margin:0">Quanto custa fazer cada uma e por quanto vender.</p></div>
+      <button class="btn btn-rosa" data-acao="novaPeca">${ICON.mais} Nova peça</button>
+    </div>
+    <div class="grade g2">
+    ${D.pecas.map(p=>{
+      const c = custoPeca(p); const lucro = p.preco - c.total;
+      return `<div class="cartao peca">
+        <button class="foto ${p.foto?'tem':''}" data-acao="fotoPeca" data-id="${p.id}" aria-label="${p.foto?'Trocar a foto':'Pôr foto'} de ${esc(p.nome)}">
+          ${p.foto?`<img src="${p.foto}" alt="${esc(p.nome)}">`:`<span class="vazio">${ICON.camera}Toque aqui para pôr a foto</span>`}</button>
+        <div class="topo"><span class="nome">${esc(p.nome)}</span>
+          <span class="pontinhos">${p.fios.map(x=>`<span style="background:${(fioPorId(x.fioId)||{}).cor||'#ccc'}"></span>`).join('')}</span></div>
+        <div class="linhas">
+          <div class="linha"><span>Fio (${G(p.fios.reduce((s,x)=>s+x.g,0))})</span><span>${R(c.fio)}</span></div>
+          <div class="linha"><span>Alças, correntes e enfeites</span><span>${R(c.ext)}</span></div>
+          <div class="linha"><span>Custo total</span><b>${R(c.total)}</b></div>
+          <div class="linha total"><span>Vendo por</span><span>${R(p.preco)}</span></div>
+          <div class="linha" style="color:var(--verde);font-weight:800"><span>Meu lucro</span><span>${R(lucro)}</span></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-verde btn-peq" style="flex:1" data-acao="vender" data-id="${p.id}">${ICON.venda} Vender</button>
+          <button class="btn btn-claro btn-peq" style="flex:1" data-acao="editarPeca" data-id="${p.id}">Mudar</button>
+        </div>
+      </div>`}).join('')}
+    </div>
+  </section>`;
+}
+
+function telaVendas(){
+  const vendas = D.mov.filter(x=>x.tipo==='e').slice().sort((a,b)=>b.data.localeCompare(a.data));
+  return `<section>
+    <div><h2>Vender</h2><p class="sub">Escolha a peça, veja o desconto e anote a venda.</p></div>
+    <button class="btn btn-verde" style="width:100%;min-height:76px;font-size:24px" data-acao="vender">${ICON.venda} Anotar uma venda</button>
+    <div class="cartao">
+      <h3>Simulador de desconto</h3>
+      <p class="sub" style="margin-top:-6px">Só para ver quanto fica, sem anotar nada.</p>
+      ${simuladorHTML()}
+    </div>
+    <div class="cartao">
+      <h3>Últimas vendas</h3>
+      ${vendas.length? vendas.slice(0,8).map(movHTML).join('') : '<p class="sub">Nenhuma venda anotada ainda.</p>'}
+    </div>
+  </section>`;
+}
+function simuladorHTML(){
+  return `<div class="grade g2" style="align-items:start">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <label class="campo">Preço da peça (R$)<input id="simPreco" type="number" inputmode="decimal" value="150"></label>
+      <div class="campo" style="display:flex;flex-direction:column;gap:6px;font-weight:700">Desconto
+        <div class="chips" id="simChips">${[0,5,10,15,20].map(d=>`<button class="chip" aria-pressed="${d===10}" data-sim="${d}">${d}%</button>`).join('')}</div>
+      </div>
+    </div>
+    <div class="resumo" id="simRes"></div>
+  </div>`;
+}
+let simDesc=10;
+function atualizaSim(){
+  const el=document.getElementById('simRes'); if(!el) return;
+  const p=num(document.getElementById('simPreco').value); const d=p*simDesc/100;
+  el.innerHTML=`<div class="linhas"><div class="linha"><span>Preço</span><span>${R(p)}</span></div>
+  <div class="linha" style="color:var(--vermelho)"><span>Desconto de ${simDesc}%</span><span>− ${R(d)}</span></div>
+  <div class="linha total"><span>Fica</span><span class="grande-final">${R(p-d)}</span></div></div>`;
+}
+
+function movHTML(x){
+  return `<div class="mov"><div class="ic ${x.tipo}">${x.tipo==='e'?'+':'−'}</div>
+    <div style="min-width:0"><div class="d">${esc(x.desc)}</div><div class="dt">${dataBR(x.data)}</div></div>
+    <div class="v ${x.tipo}">${x.tipo==='e'?'+ ':'− '}${R(x.valor)}</div></div>`;
+}
+
+function telaCaixa(){
+  const m = doMes();
+  const todos = D.mov.slice().sort((a,b)=>b.data.localeCompare(a.data));
+  const tE = D.mov.filter(x=>x.tipo==='e').reduce((s,x)=>s+x.valor,0);
+  const tS = D.mov.filter(x=>x.tipo==='s').reduce((s,x)=>s+x.valor,0);
+  return `<section>
+    <div><h2>Meu dinheiro</h2><p class="sub">Tudo o que entrou e saiu, como no caderninho.</p></div>
+    <div class="grade g3">
+      <div class="numero n-verde"><span class="rot">Entrou no mês</span><span class="val">${R(m.e)}</span></div>
+      <div class="numero n-vermelho"><span class="rot">Saiu no mês</span><span class="val">${R(m.s)}</span></div>
+      <div class="numero n-azul"><span class="rot">Desde o começo</span><span class="val">${R(tE-tS)}</span><span class="obs">de lucro guardado</span></div>
+    </div>
+    <div class="acoes" style="grid-template-columns:repeat(2,1fr)">
+      <button class="btn btn-verde" data-acao="mov" data-tipo="e">${ICON.mais} Entrou dinheiro</button>
+      <button class="btn btn-vermelho" data-acao="mov" data-tipo="s">${ICON.menos} Gastei dinheiro</button>
+    </div>
+    <div class="cartao">${todos.length? todos.map(x=>movHTML(x).replace('</div></div>',`</div></div>`)).join('') : '<p class="sub">Nada anotado ainda.</p>'}</div>
+  </section>`;
+}
+
+/* ---------- janelas ---------- */
+function abrir(html){
+  const box=document.getElementById('janelas');
+  box.innerHTML=`<div class="fundo" id="fundo"><div class="janela" role="dialog" aria-modal="true">${html}</div></div>`;
+  document.body.style.overflow='hidden';
+  const first=box.querySelector('input,select'); if(first && window.innerWidth>640) first.focus();
+}
+function fechar(){ document.getElementById('janelas').innerHTML=''; document.body.style.overflow=''; }
+const cab = t => `<div class="cab"><h2 style="margin:0">${t}</h2><button class="fechar" data-acao="fechar" aria-label="Fechar">×</button></div>`;
+function aviso(t){
+  const el=document.createElement('div'); el.className='toast'; el.textContent=t; document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2600);
+}
+
+const CORES=['#2B2B2E','#F4F1EE','#9E9E9E','#3E7CC4','#9CC6E0','#1F3F7A','#E8318A','#F4A6B5','#B0446A','#7E57C2','#E53935','#F28C28','#C8653A','#E7C04A','#A4D233','#2E8B3E','#8FB79C','#CDB79C','#4A2C24'];
+/* cores fixas + as cores que ela mesma já criou */
+const coresDisponiveis = () => [...new Set([...CORES, ...D.fios.map(f=>f.cor.toUpperCase())])];
+
+/* Fio: novo / editar */
+function janelaFio(f){
+  const novo=!f; f = f || {nome:'',cor:'#3E7CC4',peso:1000,restante:1000,preco:45};
+  abrir(`${cab(novo?'Comprei um rolo':'Mudar o rolo')}
+    <label class="campo">Nome do fio<input id="fNome" type="text" value="${esc(f.nome)}" placeholder="Ex.: Azul perolado"></label>
+    <div class="campo" style="display:flex;flex-direction:column;gap:8px;font-weight:700">Cor
+      <div class="cores" id="fCores">${coresDisponiveis().map(c=>`<button class="cor" style="background:${c}" data-cor="${c}" aria-pressed="${c===f.cor.toUpperCase()}" aria-label="cor ${c}"></button>`).join('')}</div>
+      <label class="cor-livre" id="fCorLivreBox"><input type="color" id="fCorLivre" value="${f.cor}"><span>Criar outra cor<small>Toque e escolha a cor que quiser</small></span></label>
+    </div>
+    <div class="grade g2">
+      <label class="campo">Peso do rolo (g)<input id="fPeso" type="number" inputmode="numeric" value="${f.peso}"></label>
+      <label class="campo">Quanto paguei (R$)<input id="fPreco" type="number" inputmode="decimal" value="${f.preco}"></label>
+    </div>
+    ${novo? `<label class="marcar"><input id="fGasto" type="checkbox" checked> Anotar essa compra como gasto no dinheiro</label>`
+          : `<label class="campo">Quanto sobrou (g)<input id="fRest" type="number" inputmode="numeric" value="${Math.round(f.restante)}"></label>`}
+    <button class="btn btn-azul" data-acao="salvarFio" data-id="${novo?'':f.id}">Salvar</button>
+    ${novo?'':`<button class="btn btn-claro" data-acao="maisRolo" data-id="${f.id}">${ICON.mais} Comprei mais um rolo igual</button>
+      <button class="btn btn-vermelho btn-peq" data-acao="apagarFio" data-id="${f.id}">Apagar este fio</button>`}`);
+  window._cor=f.cor;
+}
+
+/* Usei fio */
+function janelaUsar(f){
+  abrir(`${cab('Usei fio')}
+    <div style="display:flex;gap:14px;align-items:center"><div class="novelo" style="background:${f.cor};width:56px;height:56px"></div>
+      <div><div style="font-weight:800;font-size:22px">${esc(f.nome)}</div><div class="sub" style="margin:0">Tem ${G(f.restante)} agora</div></div></div>
+    <label class="campo">Quantas gramas usei?<input id="uG" type="number" inputmode="numeric" value="50"></label>
+    <div class="chips">${[50,100,200,250,500].map(g=>`<button class="chip" data-ug="${g}">${g} g</button>`).join('')}</div>
+    <div class="resumo" id="uRes"></div>
+    <button class="btn btn-rosa" data-acao="confirmarUso" data-id="${f.id}">Descontar do rolo</button>`);
+  atualizaUso(f);
+}
+function atualizaUso(f){
+  const g=num(document.getElementById('uG').value);
+  document.getElementById('uRes').innerHTML=`<div class="linhas">
+    <div class="linha"><span>Tinha</span><span>${G(f.restante)}</span></div>
+    <div class="linha" style="color:var(--vermelho)"><span>Usei</span><span>− ${G(g)}</span></div>
+    <div class="linha total"><span>Vai ficar</span><span>${G(Math.max(0,f.restante-g))}</span></div>
+    <div class="linha" style="color:var(--muted)"><span>Esse fio custou</span><span>${R(g*custoGrama(f))}</span></div></div>`;
+}
+
+/* Peça: calculadora */
+let rasc=null;
+function janelaPeca(p){
+  rasc = p? JSON.parse(JSON.stringify(p)) : {id:'',nome:'',fios:[{fioId:D.fios[0]?.id,g:100}],extras:[],margem:150,preco:0,precoManual:false};
+  rasc.precoManual = !!p;
+  abrir(`${cab(p?'Mudar a peça':'Nova peça')}
+    <div style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0">Foto da peça</h3>
+      <div id="pFoto"></div>
+      <div class="foto-acoes">
+        <button class="btn btn-azul btn-peq" data-acao="fotoRasc">${ICON.camera} <span id="pFotoTxt">Pôr foto</span></button>
+        <button class="btn btn-claro btn-peq" data-acao="tirarFotoRasc" id="pFotoTirar">Tirar a foto</button>
+      </div></div>
+    <label class="campo">Nome da peça<input id="pNome" type="text" value="${esc(rasc.nome)}" placeholder="Ex.: Bolsa azul com alça"></label>
+    <div><h3 style="margin-bottom:6px">Fios que vão na peça</h3><div id="pFios" style="display:flex;flex-direction:column;gap:8px"></div>
+      <button class="btn btn-claro btn-peq" style="margin-top:8px" data-acao="addFioP">${ICON.mais} Outro fio</button></div>
+    <div><h3 style="margin-bottom:6px">Alças, correntes, enfeites</h3><div id="pExt" style="display:flex;flex-direction:column;gap:8px"></div>
+      <button class="btn btn-claro btn-peq" style="margin-top:8px" data-acao="addExtP">${ICON.mais} Outro material</button></div>
+    <div class="campo" style="display:flex;flex-direction:column;gap:6px;font-weight:700">Quanto quero ganhar em cima do custo
+      <small>Inclui o meu trabalho. 100% = o dobro do custo.</small>
+      <div class="chips" id="pMarg">${[50,100,150,200,300].map(x=>`<button class="chip" data-marg="${x}" aria-pressed="${x===rasc.margem}">${x}%</button>`).join('')}</div>
+    </div>
+    <div class="resumo" id="pRes"></div>
+    <label class="campo">Preço que vou cobrar (R$)<small>Já vem calculado, mas pode mudar.</small><input id="pPreco" type="number" inputmode="decimal"></label>
+    <button class="btn btn-rosa" data-acao="salvarPeca">Salvar peça</button>
+    ${p?`<button class="btn btn-vermelho btn-peq" data-acao="apagarPeca" data-id="${p.id}">Apagar esta peça</button>`:''}`);
+  desenharRasc(true);
+  desenharFotoRasc();
+}
+function desenharFotoRasc(){
+  document.getElementById('pFoto').innerHTML = `<button class="foto ${rasc.foto?'tem':''}" data-acao="fotoRasc" aria-label="Escolher foto">
+    ${rasc.foto?`<img src="${rasc.foto}" alt="">`:`<span class="vazio">${ICON.camera}Toque para escolher uma foto ou tirar com a câmera</span>`}</button>`;
+  document.getElementById('pFotoTxt').textContent = rasc.foto ? 'Trocar foto' : 'Pôr foto';
+  document.getElementById('pFotoTirar').hidden = !rasc.foto;
+}
+function desenharRasc(tudo){
+  if(tudo){
+    document.getElementById('pFios').innerHTML = rasc.fios.map((x,i)=>`<div class="linha-ed">
+      <select data-pf="${i}">${D.fios.map(f=>`<option value="${f.id}" ${f.id===x.fioId?'selected':''}>${esc(f.nome)}</option>`).join('')}</select>
+      <input type="number" inputmode="numeric" data-pg="${i}" value="${x.g}" aria-label="gramas">
+      <button class="x" data-rmf="${i}" aria-label="Tirar">×</button></div>`).join('') + (rasc.fios.length?`<small style="color:var(--muted)">Número = gramas usadas</small>`:'');
+    document.getElementById('pExt').innerHTML = rasc.extras.map((x,i)=>`<div class="linha-ed">
+      <input type="text" data-en="${i}" value="${esc(x.nome)}" placeholder="Ex.: Corrente">
+      <input type="number" inputmode="decimal" data-ev="${i}" value="${x.v}" aria-label="valor em reais">
+      <button class="x" data-rme="${i}" aria-label="Tirar">×</button></div>`).join('') || '<small style="color:var(--muted)">Nenhum. Toque em "Outro material" se tiver.</small>';
+  }
+  const c=custoPeca(rasc); const sug=Math.ceil(c.total*(1+rasc.margem/100));
+  if(!rasc.precoManual){ rasc.preco=sug; }
+  const inp=document.getElementById('pPreco'); if(document.activeElement!==inp) inp.value=rasc.preco;
+  document.getElementById('pRes').innerHTML=`<div class="linhas">
+    <div class="linha"><span>Fio</span><span>${R(c.fio)}</span></div>
+    <div class="linha"><span>Outros materiais</span><span>${R(c.ext)}</span></div>
+    <div class="linha"><span><b>Custo total</b></span><b>${R(c.total)}</b></div>
+    <div class="linha total"><span>Preço sugerido</span><span>${R(sug)}</span></div>
+    <div class="linha" style="color:var(--verde);font-weight:800"><span>Lucro com o preço escolhido</span><span>${R(rasc.preco-c.total)}</span></div></div>`;
+}
+
+/* Vender */
+let venda=null;
+function janelaVender(pid){
+  venda={pid:pid||D.pecas[0]?.id,desc:0,baixa:true,outro:''};
+  abrir(`${cab('Anotar venda')}
+    <div class="campo" style="display:flex;flex-direction:column;gap:8px;font-weight:700">Qual peça vendi?
+      <div class="lista-escolha" id="vPecas"></div></div>
+    <div class="campo" style="display:flex;flex-direction:column;gap:8px;font-weight:700">Dei desconto?
+      <div class="chips" id="vDesc">${[0,5,10,15,20].map(d=>`<button class="chip" data-vd="${d}" aria-pressed="${d===0}">${d===0?'Sem desconto':d+'%'}</button>`).join('')}</div></div>
+    <div class="resumo" id="vRes"></div>
+    <label class="marcar"><input id="vBaixa" type="checkbox" checked> Descontar o fio usado do estoque</label>
+    <button class="btn btn-verde" data-acao="confirmarVenda">${ICON.venda} Anotar a venda</button>`);
+  desenharVenda();
+}
+function desenharVenda(){
+  document.getElementById('vPecas').innerHTML = D.pecas.map(p=>`<button class="escolha" data-vp="${p.id}" aria-pressed="${p.id===venda.pid}"><span style="display:flex;align-items:center;gap:12px">${thumbHTML(p)}${esc(p.nome)}</span><span>${R(p.preco)}</span></button>`).join('');
+  document.querySelectorAll('#vDesc .chip').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.vd===venda.desc)));
+  const p=D.pecas.find(x=>x.id===venda.pid); if(!p){document.getElementById('vRes').innerHTML='<p class="sub">Cadastre uma peça primeiro.</p>';return;}
+  const c=custoPeca(p).total; const d=p.preco*venda.desc/100; const fin=p.preco-d;
+  document.getElementById('vRes').innerHTML=`<div class="linhas">
+    <div class="linha"><span>Preço</span><span>${R(p.preco)}</span></div>
+    ${venda.desc?`<div class="linha" style="color:var(--vermelho)"><span>Desconto ${venda.desc}%</span><span>− ${R(d)}</span></div>`:''}
+    <div class="linha total"><span>Cliente paga</span><span class="grande-final">${R(fin)}</span></div>
+    <div class="linha" style="color:var(--muted)"><span>Custo da peça</span><span>${R(c)}</span></div>
+    <div class="linha" style="color:var(--verde);font-weight:800"><span>Meu lucro</span><span>${R(fin-c)}</span></div></div>`;
+}
+
+/* Ajuda / boas-vindas */
+function janelaAjuda(boasVindas){
+  try{ localStorage.setItem(CHAVE+'-visto','1'); }catch(e){}
+  const ehArquivo = location.protocol==='file:';
+  const caminho = decodeURIComponent(location.pathname).toLowerCase();
+  const naMesa = /desktop|área de trabalho|area de trabalho/.test(caminho);
+  const naDown = /downloads|transfer/.test(caminho);
+  const ua = navigator.userAgent;
+  const nav = /Edg\//.test(ua) ? 'Edge' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : '';
+  const ondeEsta = !ehArquivo ? '' :
+    naMesa ? `<div class="ok">Tudo certo: o caderninho já está na Área de Trabalho.${nav?` Você está usando o ${nav}. Continue abrindo sempre por ele.`:''}</div>`
+    : naDown ? `<div class="aviso">O caderninho ainda está na pasta <b>Downloads</b>. Siga os passos abaixo para levar ele para a Área de Trabalho.</div>`
+    : '';
+  abrir(`${cab(boasVindas?'Olá, Leonilde!':'Como usar')}
+    ${boasVindas?`<p style="margin:0;font-size:20px">Este é o seu caderninho da <b>Leo Artes</b>. Aqui você anota os fios, as peças, as vendas e o dinheiro, como no caderno de papel. Leia com calma. Você pode abrir esta ajuda quando quiser no botão <b>Como usar</b>, lá em cima.</p>`:''}
+
+    ${EH_APP && !instalado() ? `<div class="bloco">${instalarHTML()}</div>` : ''}
+
+    ${ehArquivo?`<div class="bloco">
+      <h3>Deixar o caderninho na Área de Trabalho</h3>
+      <p>Faça isso só uma vez. Depois é só dar dois cliques no ícone.</p>
+      ${ondeEsta}
+      <ol class="passos">
+        <li><span>Feche esta página. Abra a pasta <b>Downloads</b> (fica no Explorador de Arquivos, o ícone de pasta amarela lá embaixo).</span></li>
+        <li><span>Procure o arquivo <b>Leo Artes - Caderninho</b>. Clique <b>uma vez</b> em cima dele.</span></li>
+        <li><span>Aperte juntas as teclas <kbd>Ctrl</kbd> e <kbd>X</kbd>. Isso "recorta" o arquivo.</span></li>
+        <li><span>Feche a pasta. Clique num espaço vazio da Área de Trabalho e aperte juntas <kbd>Ctrl</kbd> e <kbd>V</kbd>. O caderninho aparece ali.</span></li>
+        <li><span>Clique com o <b>botão direito</b> do mouse no caderninho. Escolha <b>Abrir com</b> e depois <b>Google Chrome</b>. Se aparecer "Sempre usar este aplicativo", marque.</span></li>
+        <li><span>Pronto! Daqui para frente, é só dar <b>dois cliques</b> no caderninho da Área de Trabalho.</span></li>
+      </ol>
+    </div>`:''}
+
+    <div class="bloco">
+      <h3>O que tem em cada parte</h3>
+      <ol class="passos rosa">
+        <li><span><b>Início:</b> quanto você recebeu, gastou e quanto sobrou no mês. Mostra os fios que estão acabando.</span></li>
+        <li><span><b>Meus fios:</b> cada rolo com a cor e quanto sobrou. Comprou um rolo? Toque em <b>Comprei um rolo novo</b>. Usou fio? Toque em <b>Usei</b> e escreva as gramas.</span></li>
+        <li><span><b>Peças:</b> coloque a foto, os fios e as gramas de cada peça. O caderninho calcula o custo, o preço e o seu lucro.</span></li>
+        <li><span><b>Vender:</b> escolha a peça e o desconto. Ele mostra quanto a cliente paga e já desconta o fio do estoque.</span></li>
+        <li><span><b>Dinheiro:</b> tudo o que entrou e saiu. Gastou com sacolinha ou etiqueta? Anote em <b>Gastei dinheiro</b>.</span></li>
+      </ol>
+    </div>
+
+    <div class="bloco">
+      <h3>Para não perder nada</h3>
+      <div class="ok">Não precisa salvar. Cada coisa que você anota fica guardada sozinha, mesmo desligando o ${EH_APP?'celular':'computador'}.</div>
+      <div class="nao">Cuidado com estas coisas:
+        <ul class="lista-simples" style="margin-top:8px;font-weight:600">
+          ${EH_APP?`<li>Abra sempre pelo ícone <b>Leo Artes</b> da tela do celular.</li>
+          <li>Não apague os dados do Chrome nas configurações do celular.</li>
+          <li>Se for trocar de celular, guarde uma cópia antes.</li>`
+          :`<li>Não limpe o histórico do navegador.</li>
+          <li>Abra sempre pelo mesmo navegador (o Chrome).</li>
+          <li>Não use janela anônima.</li>`}
+        </ul></div>
+    </div>
+
+    ${PODE_BAIXAR?`<div class="bloco">
+      <h3>Cópia de segurança</h3>
+      <ol class="passos">
+        <li><span>Uma vez por semana, no <b>Início</b>, toque em <b>Guardar uma cópia</b>. Um arquivo vai para a pasta <b>Downloads</b>.</span></li>
+        <li><span>Mande esse arquivo para você mesma no WhatsApp. Assim ele fica guardado fora do computador.</span></li>
+        <li><span>Chegou uma versão nova do caderninho? Guarde uma cópia antes de trocar o arquivo.</span></li>
+        <li><span>Se um dia sumir alguma coisa, toque em <b>Abrir uma cópia</b> e escolha o arquivo mais novo.</span></li>
+      </ol>
+    </div>`:''}
+
+    <div class="bloco">
+      <h3>Começar com as suas coisas</h3>
+      <p>Os fios, peças e vendas que aparecem agora são <b>exemplos</b>. Quando quiser começar de verdade, vá até o fim da página e toque em <b>Começar do zero</b> (toque duas vezes para confirmar).</p>
+    </div>
+
+    <button class="btn btn-rosa" data-acao="fechar">${boasVindas?'Vamos começar!':'Entendi'}</button>`);
+}
+
+/* Movimento avulso */
+function janelaMov(tipo){
+  abrir(`${cab(tipo==='e'?'Entrou dinheiro':'Gastei dinheiro')}
+    <label class="campo">O que foi?<input id="mDesc" type="text" placeholder="${tipo==='e'?'Ex.: Encomenda paga adiantado':'Ex.: Sacolinhas e etiquetas'}"></label>
+    <label class="campo">Valor (R$)<input id="mVal" type="number" inputmode="decimal"></label>
+    <button class="btn ${tipo==='e'?'btn-verde':'btn-rosa'}" data-acao="salvarMov" data-tipo="${tipo}">Anotar</button>`);
+}
+
+/* ---------- cliques ---------- */
+document.addEventListener('click',e=>{
+  const fundo=e.target.id==='fundo'; if(fundo){fechar();return;}
+  const sim=e.target.closest('[data-sim]'); if(sim){simDesc=+sim.dataset.sim;document.querySelectorAll('#simChips .chip').forEach(b=>b.setAttribute('aria-pressed',String(b===sim)));atualizaSim();return;}
+  const cor=e.target.closest('[data-cor]'); if(cor){window._cor=cor.dataset.cor;document.getElementById('fCorLivreBox').classList.remove('sel');document.getElementById('fCorLivre').value=cor.dataset.cor.toLowerCase();document.querySelectorAll('#fCores .cor').forEach(b=>b.setAttribute('aria-pressed',String(b===cor)));return;}
+  const ug=e.target.closest('[data-ug]'); if(ug){document.getElementById('uG').value=ug.dataset.ug;atualizaUso(fioPorId(document.querySelector('[data-acao=confirmarUso]').dataset.id));return;}
+  const mg=e.target.closest('[data-marg]'); if(mg){rasc.margem=+mg.dataset.marg;rasc.precoManual=false;document.querySelectorAll('#pMarg .chip').forEach(b=>b.setAttribute('aria-pressed',String(b===mg)));desenharRasc();return;}
+  const rmf=e.target.closest('[data-rmf]'); if(rmf){rasc.fios.splice(+rmf.dataset.rmf,1);desenharRasc(true);return;}
+  const rme=e.target.closest('[data-rme]'); if(rme){rasc.extras.splice(+rme.dataset.rme,1);desenharRasc(true);return;}
+  const vp=e.target.closest('[data-vp]'); if(vp){venda.pid=vp.dataset.vp;desenharVenda();return;}
+  const vd=e.target.closest('[data-vd]'); if(vd){venda.desc=+vd.dataset.vd;desenharVenda();return;}
+
+  const b=e.target.closest('[data-acao]'); if(!b) return;
+  const a=b.dataset.acao, bid=b.dataset.id;
+  switch(a){
+    case 'fechar': fechar(); break;
+    case 'ajuda': janelaAjuda(false); break;
+    case 'instalar': if(pedidoInstalar){ fechar(); pedidoInstalar.prompt(); pedidoInstalar.userChoice.finally(()=>{ pedidoInstalar=null; render(); }); } break;
+    case 'copiarLink': { const u=location.href.split('#')[0];
+      (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>aviso('Endereço copiado! Agora cole no Chrome')).catch(()=>aviso('Segure o dedo em cima do endereço para copiar'));
+      break; }
+    case 'guardarCopia': guardarCopia(); break;
+    case 'abrirCopia': { const i=document.getElementById('inCopia'); i.value=''; i.click(); break; }
+    case 'usarCopia': D=normalizar(window._copia); salvar(); fechar(); ir('inicio'); aviso('Pronto! A cópia foi colocada no caderninho'); break;
+    case 'irFios': ir('fios'); aviso('Toque em "Usei" no fio que você gastou'); break;
+    case 'novoFio': janelaFio(); break;
+    case 'editarFio': janelaFio(fioPorId(bid)); break;
+    case 'usar': janelaUsar(fioPorId(bid)); break;
+    case 'salvarFio': {
+      const nome=document.getElementById('fNome').value.trim()||'Fio sem nome';
+      const peso=num(document.getElementById('fPeso').value)||1000, preco=num(document.getElementById('fPreco').value);
+      if(bid){ const f=fioPorId(bid); Object.assign(f,{nome,cor:window._cor,peso,preco,restante:num(document.getElementById('fRest').value)}); aviso('Fio atualizado'); }
+      else{
+        D.fios.push({id:id(),nome,cor:window._cor,peso,restante:peso,preco});
+        if(document.getElementById('fGasto').checked) D.mov.push({id:id(),data:hoje(),tipo:'s',desc:'Comprei rolo: '+nome,valor:preco});
+        aviso('Rolo guardado no estoque');
+      }
+      salvar(); fechar(); render(); break;
+    }
+    case 'maisRolo': { const f=fioPorId(bid); f.restante+=f.peso; D.mov.push({id:id(),data:hoje(),tipo:'s',desc:'Comprei rolo: '+f.nome,valor:f.preco}); salvar(); fechar(); render(); aviso('Mais um rolo de '+f.nome+' no estoque'); break; }
+    case 'apagarFio':
+      if(b.dataset.ok){ D.fios=D.fios.filter(f=>f.id!==bid); salvar(); fechar(); render(); aviso('Fio apagado'); }
+      else { b.dataset.ok='1'; b.textContent='Toque de novo para apagar mesmo'; }
+      break;
+    case 'confirmarUso': { const f=fioPorId(bid); const g=num(document.getElementById('uG').value); f.restante=Math.max(0,f.restante-g); salvar(); fechar(); render(); aviso(`Pronto! Sobrou ${G(f.restante)} de ${f.nome}`); break; }
+    case 'novaPeca': if(!D.fios.length){aviso('Cadastre um fio primeiro');break;} janelaPeca(); break;
+    case 'editarPeca': janelaPeca(D.pecas.find(p=>p.id===bid)); break;
+    case 'fotoPeca': pedirFoto(bid); break;
+    case 'fotoRasc': pedirFoto('rasc'); break;
+    case 'tirarFotoRasc': rasc.foto=''; desenharFotoRasc(); break;
+    case 'addFioP': rasc.fios.push({fioId:D.fios[0]?.id,g:100}); desenharRasc(true); break;
+    case 'addExtP': rasc.extras.push({nome:'',v:0}); desenharRasc(true); break;
+    case 'salvarPeca': {
+      rasc.nome=document.getElementById('pNome').value.trim()||'Peça sem nome';
+      const p={id:rasc.id||id(),nome:rasc.nome,fios:rasc.fios.filter(x=>x.fioId&&x.g>0),extras:rasc.extras.filter(x=>x.nome||num(x.v)),margem:rasc.margem,preco:num(rasc.preco),foto:rasc.foto||''};
+      const i=D.pecas.findIndex(x=>x.id===p.id); if(i>=0) D.pecas[i]=p; else D.pecas.push(p);
+      salvar(); fechar(); render(); aviso('Peça salva'); break;
+    }
+    case 'apagarPeca':
+      if(b.dataset.ok){ D.pecas=D.pecas.filter(p=>p.id!==bid); salvar(); fechar(); render(); aviso('Peça apagada'); }
+      else { b.dataset.ok='1'; b.textContent='Toque de novo para apagar mesmo'; }
+      break;
+    case 'vender': if(!D.pecas.length){aviso('Cadastre uma peça primeiro');break;} janelaVender(bid); break;
+    case 'confirmarVenda': {
+      const p=D.pecas.find(x=>x.id===venda.pid); if(!p) break;
+      const fin=p.preco*(1-venda.desc/100);
+      D.mov.push({id:id(),data:hoje(),tipo:'e',desc:'Vendi: '+p.nome+(venda.desc?` (desconto ${venda.desc}%)`:''),valor:Math.round(fin*100)/100});
+      if(document.getElementById('vBaixa').checked) p.fios.forEach(x=>{const f=fioPorId(x.fioId); if(f) f.restante=Math.max(0,f.restante-x.g);});
+      salvar(); fechar(); render(); aviso('Venda anotada! '+R(fin)); break;
+    }
+    case 'mov': janelaMov(b.dataset.tipo); break;
+    case 'salvarMov': {
+      const v=num(document.getElementById('mVal').value); if(!v){aviso('Escreva o valor');break;}
+      D.mov.push({id:id(),data:hoje(),tipo:b.dataset.tipo,desc:document.getElementById('mDesc').value.trim()||(b.dataset.tipo==='e'?'Entrada':'Gasto'),valor:v});
+      salvar(); fechar(); render(); aviso('Anotado'); break;
+    }
+  }
+});
+
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.id==='simPreco') atualizaSim();
+  if(t.id==='fCorLivre'){ window._cor=t.value.toUpperCase(); document.querySelectorAll('#fCores .cor').forEach(b=>b.setAttribute('aria-pressed','false')); document.getElementById('fCorLivreBox').classList.add('sel'); }
+  if(t.id==='uG') atualizaUso(fioPorId(document.querySelector('[data-acao=confirmarUso]').dataset.id));
+  if(t.dataset.pg!==undefined){rasc.fios[+t.dataset.pg].g=num(t.value);desenharRasc();}
+  if(t.dataset.ev!==undefined){rasc.extras[+t.dataset.ev].v=num(t.value);desenharRasc();}
+  if(t.dataset.en!==undefined){rasc.extras[+t.dataset.en].nome=t.value;}
+  if(t.id==='pPreco'){rasc.preco=num(t.value);rasc.precoManual=true;desenharRasc();}
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='inCopia' && t.files[0]){ abrirCopia(t.files[0]); return; }
+  if(t.id==='inFoto' && t.files[0]){
+    const alvo=fotoAlvo;
+    lerFoto(t.files[0], url=>{
+      if(alvo==='rasc'){ if(rasc){ rasc.foto=url; desenharFotoRasc(); } }
+      else { const p=D.pecas.find(x=>x.id===alvo); if(p){ p.foto=url; salvar(); render(); aviso('Foto colocada!'); } }
+    });
+    return;
+  }
+  if(t.dataset.pf!==undefined){rasc.fios[+t.dataset.pf].fioId=t.value;desenharRasc();}
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') fechar(); });
+
+/* rodapé */
+document.getElementById('btnExemplos').addEventListener('click',function(){
+  if(!this.dataset.ok){this.dataset.ok='1';this.textContent='Toque de novo para confirmar';return;}
+  D=exemplos(); salvar(); this.dataset.ok=''; this.textContent='Voltar aos exemplos'; render(); aviso('Exemplos de volta');
+});
+document.getElementById('btnZerar').addEventListener('click',function(){
+  if(!this.dataset.ok){this.dataset.ok='1';this.textContent='Apaga tudo! Toque de novo';return;}
+  D={fios:[],pecas:[],mov:[]}; salvar(); this.dataset.ok=''; this.textContent='Começar do zero'; render(); aviso('Tudo limpo. Comece cadastrando seus fios');
+});
+
+/* re-render observa simulador */
+const _render=render;
+render=function(){ _render(); atualizaSim(); };
+render();
+let jaViu=false; try{ jaViu = !!localStorage.getItem(CHAVE+'-visto'); }catch(e){ jaViu=true; }
+if(!jaViu) janelaAjuda(true);
+</script>
+</body>
+</html>
